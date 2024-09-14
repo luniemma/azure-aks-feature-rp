@@ -1,6 +1,6 @@
 # modules/resource_group/outputs.tf
 
-output "name" {
+output "rg" {
   value = azurerm_resource_group.rg.name
 }
 
