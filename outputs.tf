@@ -1,12 +1,9 @@
-# output "resource_group_name" {
-#   value = module.resource_group.name
-# }
+# outputs.tf
 
-# output "kubernetes_cluster_name" {
-#   value = module.aks_cluster.name
-# }
+output "resource_group_name" {
+  value = module.resource_group.name
+}
 
-# output "kube_config" {
-#   value     = module.aks_cluster.kube_config
-#   sensitive = true
-# }
+output "kubernetes_cluster_name" {
+  value = module.aks.cluster_name
+}

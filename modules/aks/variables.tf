@@ -6,7 +6,7 @@ variable "name" {
 }
 
 variable "location" {
-  description = "Azure region for the AKS cluster"
+  description = "Azure region to deploy the AKS cluster"
   type        = string
 }
 
@@ -21,17 +21,7 @@ variable "dns_prefix" {
 }
 
 variable "node_count" {
-  description = "Number of nodes in the default node pool"
+  description = "Number of nodes in the AKS cluster"
   type        = number
-  default = 2
-}
-
-variable "node_vm_size" {
-  description = "VM size for the nodes"
-  type        = string
-}
-
-variable "environment" {
-  description = "Environment tag for the AKS cluster"
-  type        = string
+  default     = 2
 }
