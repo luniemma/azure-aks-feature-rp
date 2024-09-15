@@ -29,14 +29,22 @@ jobs:
 
     - name: Azure CLI Login
       run: |
+        echo "Attempting to log in to Azure..."
         az login --service-principal \
           -u $ARM_CLIENT_ID \
           -p $ARM_CLIENT_SECRET \
-          --tenant $ARM_TENANT_ID
+          --tenant $ARM_TENANT_ID \
+          --allow-no-subscriptions
+        
+        echo "Setting subscription..."
         az account set --subscription $ARM_SUBSCRIPTION_ID
+        
+        echo "Verifying login..."
+        az account show
 
     - name: Register Azure Resource Providers
       run: |
+        echo "Registering resource providers..."
         az provider register --namespace Microsoft.Network
         az provider register --namespace Microsoft.Compute
         az provider register --namespace Microsoft.Storage
@@ -45,6 +53,7 @@ jobs:
 
     - name: Terraform Init
       run: |
+        echo "Initializing Terraform..."
         terraform init \
           -backend-config="storage_account_name=${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}" \
           -backend-config="container_name=${{ secrets.AZURE_STORAGE_CONTAINER_NAME }}" \
@@ -52,8 +61,12 @@ jobs:
           -backend-config="sas_token=${{ secrets.AZURE_STORAGE_SAS_TOKEN }}"
 
     - name: Terraform Plan
-      run: terraform plan
+      run: |
+        echo "Running Terraform plan..."
+        terraform plan
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+      run: |
+        echo "Applying Terraform changes..."
+        terraform apply -auto-approve
