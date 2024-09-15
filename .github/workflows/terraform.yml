@@ -42,15 +42,6 @@ jobs:
         echo "Verifying login..."
         az account show
 
-    - name: Register Azure Resource Providers
-      run: |
-        echo "Registering resource providers..."
-        az provider register --namespace Microsoft.Network
-        az provider register --namespace Microsoft.Compute
-        az provider register --namespace Microsoft.Storage
-        az provider register --namespace Microsoft.ContainerService
-        az provider register --namespace Microsoft.ManagedIdentity
-
     - name: Terraform Init
       run: |
         echo "Initializing Terraform..."
