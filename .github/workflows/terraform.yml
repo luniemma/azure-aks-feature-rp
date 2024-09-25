@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID || 'fallback_value' }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID || 'fallback_value' }} # Updated fallback method
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CONFIG_DIR: /tmp/.azure
 
@@ -25,7 +25,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: "1.5.0"  # Update to a more recent version
+        terraform_version: "1.5.0"
 
     - name: Azure CLI Login
       run: |
@@ -59,7 +59,8 @@ jobs:
 
     - name: Terraform Plan
       id: plan
-      run: terraform plan=tfplan
+      run: terraform plan -out=tfplan
+      continue-on-error: true
 
     - name: Terraform Plan Status
       if: steps.plan.outcome == 'failure'
