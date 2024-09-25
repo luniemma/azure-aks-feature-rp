@@ -42,6 +42,13 @@ jobs:
         echo "Verifying login..."
         az account show
 
+    - name: Grant AKS Permissions
+      run: |
+        echo "Granting AKS permissions..."
+        az role assignment create --assignee $ARM_CLIENT_ID \
+          --role "Azure Kubernetes Service Contributor" \
+          --scope "/subscriptions/$ARM_SUBSCRIPTION_ID"
+
     - name: Terraform Init
       run: |
         echo "Initializing Terraform..."
